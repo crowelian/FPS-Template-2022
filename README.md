@@ -4,4 +4,4 @@ FPS related scripts
 
 ### 3rd Party Assets Used:
 
-- Easy Character Movement
+- Weapons Pack: Stylized [FREE]: https://assetstore.unity.com/packages/3d/props/weapons/weapons-pack-stylized-145575
