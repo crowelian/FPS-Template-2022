@@ -12,6 +12,7 @@ public class FirstPersonController : MonoBehaviour
     float MaximumX = 90;
     Rigidbody rb;
     CapsuleCollider capsule;
+    bool isWalking;
 
     WeaponAim weaponAim;
     [SerializeField] GameObject cam;
@@ -71,12 +72,27 @@ public class FirstPersonController : MonoBehaviour
 
         if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
         {
+            if (isWalking == false)
+            {
+                if (IsGrounded())
+                {
+                    isWalking = true;
+                    InvokeRepeating("PlayFootStepAudio", 0, 0.3f);
+                }
+                else
+                {
+                    isWalking = false;
+                    CancelInvoke("PlayFootStepAudio");
+                }
 
-            InvokeRepeating("PlayFootStepAudio", 0, 0.4f);
+
+            }
+
 
         }
         else
         {
+            isWalking = false;
             CancelInvoke("PlayFootStepAudio");
         }
 
@@ -101,8 +117,8 @@ public class FirstPersonController : MonoBehaviour
         this.transform.localRotation = characterRotation;
         cam.transform.localRotation = cameraRotation;
 
-        float x = Input.GetAxis("Horizontal") * speed;
-        float z = Input.GetAxis("Vertical") * speed;
+        x = Input.GetAxis("Horizontal") * speed;
+        z = Input.GetAxis("Vertical") * speed;
 
 
         transform.position += cam.transform.forward * z + cam.transform.right * x; //new Vector3(x * speed, 0, z * speed);
@@ -181,7 +197,11 @@ public class FirstPersonController : MonoBehaviour
         int n = Random.Range(1, footsteps.Length);
 
         audioSource = footsteps[n];
-        audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
         footsteps[n] = footsteps[0];
         footsteps[0] = audioSource;
     }
@@ -193,7 +213,11 @@ public class FirstPersonController : MonoBehaviour
         {
             if (!land.isPlaying)
             {
-                land.Play();
+                if (!isWalking)
+                {
+                    land.Play();
+                }
+
             }
 
         }
