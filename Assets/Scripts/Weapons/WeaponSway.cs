@@ -18,6 +18,10 @@ public class WeaponSway : MonoBehaviour
 
         Quaternion targetRotation = rotationX * rotationY;
 
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
+        if (!Input.GetButtonUp("Fire1") && GetComponent<SimpleRecoil>().doThisCheckBetterPlease == false) // TODO: fix this... allow weapon to have recoil while shooting...
+        {
+            transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
+        }
+
     }
 }

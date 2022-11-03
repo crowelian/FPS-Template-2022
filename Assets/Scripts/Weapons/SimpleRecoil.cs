@@ -11,12 +11,14 @@ public class SimpleRecoil : MonoBehaviour
     float timer = 0f;
 
     public Camera shittyVersionOfThisCodeHereHello;
+    public bool doThisCheckBetterPlease = false;
+    float defaultTimeBetweenShots = 0.2f;
 
     // Start is called before the first frame update
     void Start()
     {
         originalRotation = transform.localEulerAngles;
-        
+
     }
 
     // Update is called once per frame
@@ -31,6 +33,11 @@ public class SimpleRecoil : MonoBehaviour
             }
         }
 
+        if (Input.GetButtonDown("Fire1"))
+        {
+            doThisCheckBetterPlease = true;
+        }
+
         if (Input.GetButtonUp("Fire1"))
         {
             if (timer <= 0)
@@ -42,6 +49,7 @@ public class SimpleRecoil : MonoBehaviour
 
     public void AddRecoil()
     {
+
         if (shittyVersionOfThisCodeHereHello.enabled)
         {
             if (maxAimingRecoilAngle != 0)
@@ -52,7 +60,8 @@ public class SimpleRecoil : MonoBehaviour
                     transform.localEulerAngles += upRecoil / 2;
                 }
             }
-        } else
+        }
+        else
         {
             if (maxRecoilAngle != 0)
             {
@@ -63,14 +72,15 @@ public class SimpleRecoil : MonoBehaviour
                 }
             }
         }
-        
-        
-        timer = GetComponent<SingleShotWeapon>().timeBetweenShots / 2;
+
+
+        timer = defaultTimeBetweenShots;
     }
 
 
-   public void StopRecoil()
+    public void StopRecoil()
     {
+        doThisCheckBetterPlease = false;
         transform.localEulerAngles = originalRotation;
     }
 }

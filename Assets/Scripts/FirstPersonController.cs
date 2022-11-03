@@ -15,6 +15,9 @@ public class FirstPersonController : MonoBehaviour
     bool isWalking;
 
     WeaponAim weaponAim;
+    [SerializeField] GameObject currentWeapon;
+    [SerializeField] Transform weaponShootDirection;
+    [SerializeField] GameObject hitDebris;
     [SerializeField] GameObject cam;
     Quaternion cameraRotation;
     Quaternion characterRotation;
@@ -29,6 +32,8 @@ public class FirstPersonController : MonoBehaviour
     public AudioSource jump;
     public AudioSource land;
     public AudioSource shoot;
+    public AudioSource healthPickup;
+    public AudioSource ammoPickup;
 
 
     void Awake()
@@ -52,7 +57,20 @@ public class FirstPersonController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            shoot.Play();
+            if (GetComponent<SimpleWeaponHandler>().GetCurrentAmmo() <= 0)
+            {
+                // TODO: play empty clip sound here!
+                return;
+            }
+
+            PlayAudioIfNotPlaying(shoot, true);
+            if (currentWeapon != null)
+            {
+                currentWeapon.GetComponent<SimpleRecoil>().AddRecoil();
+            }
+            ProcessWeaponHit();
+            GetComponent<SimpleWeaponHandler>().RemoveAmmo(1);
+
         }
 
         if (Input.GetMouseButton(1))
@@ -99,7 +117,7 @@ public class FirstPersonController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             rb.AddForce(0, 300, 0);
-            jump.Play();
+            PlayAudioIfNotPlaying(jump);
         }
 
     }
@@ -215,11 +233,115 @@ public class FirstPersonController : MonoBehaviour
             {
                 if (!isWalking)
                 {
-                    land.Play();
+                    PlayAudioIfNotPlaying(land);
                 }
 
             }
 
         }
+
+        CheckPickup<Collision>(col);
+
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        CheckPickup<Collider>(other);
+    }
+
+    void CheckPickup<T>(T col)
+    {
+
+        // TODO: FIX ALL OF THIS Horrendous stuff!
+        if (col is Collision || col is Collider)
+        {
+            if (col is Collider)
+            {
+                Collider collision = col as Collider;
+                if (collision.gameObject.tag == "Health")
+                {
+                    Debug.Log("Health Pickup");
+                    Destroy(collision.gameObject);
+                    GetComponent<Health>().Heal(25f);
+                    PlayAudioIfNotPlaying(healthPickup);
+                }
+
+                else if (collision.gameObject.tag == "Ammo")
+                {
+                    Debug.Log("Ammo Pickup");
+                    Destroy(collision.gameObject);
+                    GetComponent<SimpleWeaponHandler>().AddAmmo(50);
+                    PlayAudioIfNotPlaying(ammoPickup);
+                }
+            }
+            if (col is Collision)
+            {
+                Collision collision = col as Collision;
+                if (collision.gameObject.tag == "Health")
+                {
+                    Debug.Log("Health Pickup");
+                    Destroy(collision.gameObject);
+                    GetComponent<Health>().Heal(25f);
+                    PlayAudioIfNotPlaying(healthPickup);
+                }
+
+                else if (collision.gameObject.tag == "Ammo")
+                {
+                    Debug.Log("Ammo Pickup");
+                    Destroy(collision.gameObject);
+                    GetComponent<SimpleWeaponHandler>().AddAmmo(50);
+                    PlayAudioIfNotPlaying(ammoPickup);
+                }
+
+            }
+
+
+
+        }
+
+
+    }
+
+
+    void PlayAudioIfNotPlaying(AudioSource playThis, bool noWait = false)
+    {
+        if (playThis == null)
+        {
+            return;
+        }
+        if (playThis.isPlaying && noWait == false)
+        {
+            return;
+        }
+
+        playThis.Play();
+    }
+
+
+    void ProcessWeaponHit()
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(weaponShootDirection.position, weaponShootDirection.forward, out hitInfo, 300))
+        {
+            GameObject hitObject = hitInfo.collider.gameObject;
+            GameObject hitDebris1 = Instantiate(hitDebris, hitInfo.point, Quaternion.identity);
+            Material newHitMat = new Material(Shader.Find("Standard"));
+            newHitMat.color = new Color(1, 1, 1, 1);
+            hitDebris1.GetComponent<MeshRenderer>().material = newHitMat;
+            if (hitObject.GetComponent<MeshRenderer>())
+            {
+                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<MeshRenderer>().sharedMaterial.color;
+            }
+            else if (hitObject.GetComponent<HitColor>())
+            {
+                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<HitColor>().hitColor;
+            }
+
+
+            // TODO: check if health component is present etc...
+
+        }
+    }
+
+
 }
