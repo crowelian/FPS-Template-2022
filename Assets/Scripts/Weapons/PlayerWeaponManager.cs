@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerWeaponManager : MonoBehaviour
 {
+    public static PlayerWeaponManager Instance;
+
     public static Action OnStartShooting; // event for shooting so other classes can access it
 
     [Header("Weapon Settings")]
@@ -20,29 +22,86 @@ public class PlayerWeaponManager : MonoBehaviour
 
     public GameObject[] weapons;
 
+
+    // TODO fix this
+    public AudioSource shoot;
+    [SerializeField] GameObject hitDebris;
+
+    WeaponAim weaponAim;
+    [SerializeField] GameObject currentWeapon;
+    [SerializeField] Transform weaponShootDirection;
+    // End of fix these
+
     // Start is called before the first frame update
     void Start()
     {
         weapons[0] = null;
         if (!weaponInUseAtStart) weapons[1].SetActive(false);
+
+        weaponAim = this.GetComponent<WeaponAim>();
+
     }
 
     private void Update()
     {
         HandleInput();
+
+
+
     }
+
+
+
 
 
     protected void HandleInput()
     {
+
+        // TODO FIX THIS:
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (GetComponent<SimpleWeaponHandler>().GetCurrentAmmo() <= 0)
+            {
+                // TODO: play empty clip sound here!
+                return;
+            }
+
+            AudioManager.PlayAudioIfNotPlaying(shoot, true);
+            if (CurrentWeapon != null)
+            {
+                CurrentWeapon.GetComponent<SimpleRecoil>().AddRecoil();
+            }
+            ProcessWeaponHit();
+            GetComponent<SimpleWeaponHandler>().RemoveAmmo(1);
+
+        }
+        // END OF FIX THIS
+
+        if (Input.GetMouseButton(1))
+        {
+            Aim();
+        }
+        else
+        {
+            CancelAim();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("reload");
+        }
+
+
+
+
         if (Input.GetMouseButton(0))
         {
-            if(weapons[1].activeInHierarchy)
+            if (weapons[1].activeInHierarchy)
             {
-               
+
                 Shoot();
             }
-            
+
         }
 
         if (Input.GetMouseButton(1))
@@ -50,7 +109,7 @@ public class PlayerWeaponManager : MonoBehaviour
             if (weapons[1].activeInHierarchy)
             {
                 Aim();
-            } 
+            }
 
         }
         else
@@ -82,21 +141,21 @@ public class PlayerWeaponManager : MonoBehaviour
     {
         if (CurrentWeapon == null)
         {
-            
+
             return;
         }
-        
+
         CurrentWeapon.TriggerShot();
         //if (character.CharacterType == Character.CharacterTypes.Player)
         //{
-            OnStartShooting?.Invoke(); // If on startshooting is not null, invoke it!
-                                       //UIManager.Instance.UpdateAmmo(CurrentWeapon.CurrentAmmo, CurrentWeapon.MagazineSize);
-                                       //}
+        OnStartShooting?.Invoke(); // If on startshooting is not null, invoke it!
+                                   //UIManager.Instance.UpdateAmmo(CurrentWeapon.CurrentAmmo, CurrentWeapon.MagazineSize);
+                                   //}
     }
 
     public void Aim()
     {
-        
+
         if (CurrentWeapon == null)
         {
 
@@ -153,5 +212,32 @@ public class PlayerWeaponManager : MonoBehaviour
         //    UIManager.Instance.UpdateAmmo(CurrentWeapon.CurrentAmmo, CurrentWeapon.MagazineSize);
         //}
 
+    }
+
+
+    // TODO Fix this
+    void ProcessWeaponHit()
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(weaponShootDirection.position, weaponShootDirection.forward, out hitInfo, 300))
+        {
+            GameObject hitObject = hitInfo.collider.gameObject;
+            GameObject hitDebris1 = Instantiate(hitDebris, hitInfo.point, Quaternion.identity);
+            Material newHitMat = new Material(Shader.Find("Standard"));
+            newHitMat.color = new Color(1, 1, 1, 1);
+            hitDebris1.GetComponent<MeshRenderer>().material = newHitMat;
+            if (hitObject.GetComponent<MeshRenderer>())
+            {
+                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<MeshRenderer>().sharedMaterial.color;
+            }
+            else if (hitObject.GetComponent<HitColor>())
+            {
+                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<HitColor>().hitColor;
+            }
+
+
+            // TODO: check if health component is present etc...
+
+        }
     }
 }

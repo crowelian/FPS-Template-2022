@@ -1758,6 +1758,8 @@ GameObject:
   - component: {fileID: 861607497}
   - component: {fileID: 861607499}
   - component: {fileID: 861607500}
+  - component: {fileID: 861607501}
+  - component: {fileID: 861607502}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -1873,10 +1875,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.1
-  currentWeapon: {fileID: 1124494485}
-  weaponShootDirection: {fileID: 1365543529}
-  hitDebris: {fileID: 1457779941268260494, guid: cdf553c77e2b91a438b825ffca4ad169,
-    type: 3}
   cam: {fileID: 922523618}
   footsteps:
   - {fileID: 853218552}
@@ -1886,7 +1884,6 @@ MonoBehaviour:
   - {fileID: 1527300105}
   jump: {fileID: 522930036}
   land: {fileID: 1495953446}
-  shoot: {fileID: 1558828832}
   healthPickup: {fileID: 781448662}
   ammoPickup: {fileID: 1752230893}
 --- !u!114 &861607496
@@ -1965,6 +1962,43 @@ MonoBehaviour:
   currentWeapon: {fileID: 0}
   currentAmmo: 50
   maxAmmo: 255
+--- !u!114 &861607501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861607489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 270bfd303c603964aa29248b454b1e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponToUse: {fileID: 1124494487}
+  weaponHolderPosition: {fileID: 1795588995}
+  weaponInUseAtStart: 1
+  CurrentWeapon: {fileID: 1124494487}
+  weapons:
+  - {fileID: 1124494485}
+  - {fileID: 1124494485}
+  shoot: {fileID: 1558828832}
+  hitDebris: {fileID: 1457779941268260494, guid: cdf553c77e2b91a438b825ffca4ad169,
+    type: 3}
+  currentWeapon: {fileID: 1124494485}
+  weaponShootDirection: {fileID: 1365543529}
+--- !u!114 &861607502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861607489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559348251e003eb47b272a5c89f44608, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useCursorLock: 1
 --- !u!4 &891523316 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4341956105540720182, guid: 359207b74798ed949bf151ef047ced53,
@@ -2438,6 +2472,26 @@ MonoBehaviour:
   maxAimingRecoilAngle: 2
   shittyVersionOfThisCodeHereHello: {fileID: 221172140}
   doThisCheckBetterPlease: 0
+--- !u!114 &1124494487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1124494485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1723b3fc87cf8fd47aa7209aa381f92d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenShots: 0.5
+  useMagazine: 1
+  magazineSize: 30
+  autoReload: 1
+  useRecoil: 1
+  recoilForce: 5
+  muzzleFlash: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &1236202561
 GameObject:
   m_ObjectHideFlags: 0

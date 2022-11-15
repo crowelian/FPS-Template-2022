@@ -14,15 +14,11 @@ public class FirstPersonController : MonoBehaviour
     CapsuleCollider capsule;
     bool isWalking;
 
-    WeaponAim weaponAim;
-    [SerializeField] GameObject currentWeapon;
-    [SerializeField] Transform weaponShootDirection;
-    [SerializeField] GameObject hitDebris;
+
     [SerializeField] GameObject cam;
     Quaternion cameraRotation;
     Quaternion characterRotation;
-    bool cursorIsLocked = true;
-    bool lockCursor = true;
+
 
     float x;
     float z;
@@ -31,7 +27,7 @@ public class FirstPersonController : MonoBehaviour
     public AudioSource[] footsteps;
     public AudioSource jump;
     public AudioSource land;
-    public AudioSource shoot;
+
     public AudioSource healthPickup;
     public AudioSource ammoPickup;
 
@@ -46,47 +42,11 @@ public class FirstPersonController : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         capsule = this.GetComponent<CapsuleCollider>();
-        weaponAim = this.GetComponent<WeaponAim>();
-
-        cursorIsLocked = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (GetComponent<SimpleWeaponHandler>().GetCurrentAmmo() <= 0)
-            {
-                // TODO: play empty clip sound here!
-                return;
-            }
-
-            PlayAudioIfNotPlaying(shoot, true);
-            if (currentWeapon != null)
-            {
-                currentWeapon.GetComponent<SimpleRecoil>().AddRecoil();
-            }
-            ProcessWeaponHit();
-            GetComponent<SimpleWeaponHandler>().RemoveAmmo(1);
-
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            weaponAim.SetAiming(true);
-        }
-        else
-        {
-            weaponAim.SetAiming(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("reload");
-        }
-
 
         if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
         {
@@ -102,10 +62,7 @@ public class FirstPersonController : MonoBehaviour
                     isWalking = false;
                     CancelInvoke("PlayFootStepAudio");
                 }
-
-
             }
-
 
         }
         else
@@ -117,7 +74,7 @@ public class FirstPersonController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             rb.AddForce(0, 300, 0);
-            PlayAudioIfNotPlaying(jump);
+            AudioManager.PlayAudioIfNotPlaying(jump);
         }
 
     }
@@ -141,7 +98,7 @@ public class FirstPersonController : MonoBehaviour
 
         transform.position += cam.transform.forward * z + cam.transform.right * x; //new Vector3(x * speed, 0, z * speed);
 
-        UpdateCursorLock();
+
     }
 
     Quaternion ClampRotationAroundXAxis(Quaternion q)
@@ -168,47 +125,6 @@ public class FirstPersonController : MonoBehaviour
         }
         return false;
     }
-
-    public void SetCursorLock(bool value)
-    {
-        lockCursor = value;
-        if (!lockCursor)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-    }
-
-    public void UpdateCursorLock()
-    {
-        if (lockCursor)
-            InternalLockUpdate();
-    }
-
-    public void InternalLockUpdate()
-    {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            cursorIsLocked = false;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            cursorIsLocked = true;
-        }
-
-
-        if (cursorIsLocked)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else if (!cursorIsLocked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-    }
-
     void PlayFootStepAudio()
     {
         AudioSource audioSource = new AudioSource();
@@ -233,7 +149,7 @@ public class FirstPersonController : MonoBehaviour
             {
                 if (!isWalking)
                 {
-                    PlayAudioIfNotPlaying(land);
+                    AudioManager.PlayAudioIfNotPlaying(land);
                 }
 
             }
@@ -263,7 +179,7 @@ public class FirstPersonController : MonoBehaviour
                     Debug.Log("Health Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<Health>().Heal(25f);
-                    PlayAudioIfNotPlaying(healthPickup);
+                    AudioManager.PlayAudioIfNotPlaying(healthPickup);
                 }
 
                 else if (collision.gameObject.tag == "Ammo")
@@ -271,7 +187,7 @@ public class FirstPersonController : MonoBehaviour
                     Debug.Log("Ammo Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<SimpleWeaponHandler>().AddAmmo(50);
-                    PlayAudioIfNotPlaying(ammoPickup);
+                    AudioManager.PlayAudioIfNotPlaying(ammoPickup);
                 }
             }
             if (col is Collision)
@@ -282,7 +198,7 @@ public class FirstPersonController : MonoBehaviour
                     Debug.Log("Health Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<Health>().Heal(25f);
-                    PlayAudioIfNotPlaying(healthPickup);
+                    AudioManager.PlayAudioIfNotPlaying(healthPickup);
                 }
 
                 else if (collision.gameObject.tag == "Ammo")
@@ -290,7 +206,7 @@ public class FirstPersonController : MonoBehaviour
                     Debug.Log("Ammo Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<SimpleWeaponHandler>().AddAmmo(50);
-                    PlayAudioIfNotPlaying(ammoPickup);
+                    AudioManager.PlayAudioIfNotPlaying(ammoPickup);
                 }
 
             }
@@ -303,45 +219,10 @@ public class FirstPersonController : MonoBehaviour
     }
 
 
-    void PlayAudioIfNotPlaying(AudioSource playThis, bool noWait = false)
-    {
-        if (playThis == null)
-        {
-            return;
-        }
-        if (playThis.isPlaying && noWait == false)
-        {
-            return;
-        }
-
-        playThis.Play();
-    }
 
 
-    void ProcessWeaponHit()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(weaponShootDirection.position, weaponShootDirection.forward, out hitInfo, 300))
-        {
-            GameObject hitObject = hitInfo.collider.gameObject;
-            GameObject hitDebris1 = Instantiate(hitDebris, hitInfo.point, Quaternion.identity);
-            Material newHitMat = new Material(Shader.Find("Standard"));
-            newHitMat.color = new Color(1, 1, 1, 1);
-            hitDebris1.GetComponent<MeshRenderer>().material = newHitMat;
-            if (hitObject.GetComponent<MeshRenderer>())
-            {
-                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<MeshRenderer>().sharedMaterial.color;
-            }
-            else if (hitObject.GetComponent<HitColor>())
-            {
-                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<HitColor>().hitColor;
-            }
 
 
-            // TODO: check if health component is present etc...
-
-        }
-    }
 
 
 }
