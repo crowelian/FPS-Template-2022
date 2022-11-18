@@ -4,86 +4,47 @@ using UnityEngine;
 
 public class SimpleRecoil : MonoBehaviour
 {
-    [SerializeField] Vector3 upRecoil;
-    [SerializeField] float maxRecoilAngle;
-    [SerializeField] float maxAimingRecoilAngle;
-    [SerializeField] float recoilDampeningTime = 11f;
-    Vector3 originalRotation;
-    Vector3 recoilRotation;
-    float timer = 0f;
 
-    public Camera shittyVersionOfThisCodeHereHello;
-    float defaultTimeBetweenShots = 0.2f;
+
+    [SerializeField] float recoilX;
+    [SerializeField] float recoilY;
+    [SerializeField] float recoilZ;
+    [SerializeField] float aimingDeMultiplier = 0.1f;
+    [SerializeField] float snap;
+    [SerializeField] float recoilDampeningTime = 11f;
+    Vector3 currentRotation;
+    Vector3 recoilRotation;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        originalRotation = transform.localEulerAngles;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timer > 0)
-        {
-            timer -= 1f * Time.deltaTime;
-            if (timer <= 0 && !Input.GetButton("Fire1"))
-            {
-                StopRecoil();
-            }
-        }
-
-        if (Input.GetButtonUp("Fire1"))
-        {
-            if (timer <= 0)
-            {
-                StopRecoil();
-            }
-        }
+        recoilRotation = Vector3.Lerp(recoilRotation, Vector3.zero, recoilDampeningTime * Time.deltaTime);
+        currentRotation = Vector3.Slerp(currentRotation, recoilRotation, snap * Time.deltaTime);
+        transform.localRotation = Quaternion.Euler(currentRotation);
     }
 
     public void AddRecoil()
     {
 
-        if (SimpleWeaponHandler.Instance.GetCurrentAmmo() > 0)
+        if (ShittyAimCode.isAiming)
         {
-            if (maxAimingRecoilAngle != 0)
-            {
-
-                if ((360 - maxAimingRecoilAngle) <= transform.localEulerAngles.z || transform.localEulerAngles.z == 0)
-                {
-                    transform.localEulerAngles += upRecoil / 2;
-                }
-            }
+            recoilRotation += new Vector3(recoilX * aimingDeMultiplier, Random.Range(-recoilY * aimingDeMultiplier, recoilY * aimingDeMultiplier), Random.Range(-recoilZ * aimingDeMultiplier, recoilZ * aimingDeMultiplier));
         }
         else
         {
-            if (maxRecoilAngle != 0)
-            {
-
-                if ((360 - maxRecoilAngle) <= transform.localEulerAngles.z || transform.localEulerAngles.z == 0)
-                {
-                    transform.localEulerAngles += upRecoil;
-                }
-            }
+            recoilRotation += new Vector3(recoilX, Random.Range(-recoilY, recoilY), Random.Range(-recoilZ, recoilZ));
         }
 
 
-        timer = defaultTimeBetweenShots;
     }
 
 
-    public void StopRecoil()
-    {
-        recoilRotation.x = transform.localEulerAngles.x;
-        if (ShittyAimCode.isAiming)
-        {
-            transform.localEulerAngles = originalRotation;
-            return;
-        }
 
-        Vector3 rotationOutput = Vector3.Slerp(originalRotation, -recoilRotation, recoilDampeningTime * Time.fixedDeltaTime);
-        this.transform.localRotation = Quaternion.Euler(rotationOutput);
-    }
 }
