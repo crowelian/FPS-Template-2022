@@ -19,8 +19,6 @@ public class Weapon : MonoBehaviour
     [Header("Recoil")]
     [SerializeField]
     private bool useRecoil = true;
-    [SerializeField]
-    private int recoilForce = 5;
 
     [Header("Effects")]
     [SerializeField]

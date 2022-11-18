@@ -97,8 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 33044e6cac608bf4599edd416771b596,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: f26857daab462ba4f9f748efbc87846c,
     type: 2}
 --- !u!196 &4
@@ -9380,7 +9379,6 @@ MonoBehaviour:
   magazineSize: 30
   autoReload: 0
   useRecoil: 1
-  recoilForce: 5
   muzzleFlash: {fileID: 0}
   animator: {fileID: 0}
   currentCamera: {fileID: 922523621}
@@ -9747,8 +9745,8 @@ MonoBehaviour:
   recoilY: 6
   recoilZ: 2
   aimingDeMultiplier: 0.05
-  snap: 4
-  recoilDampeningTime: 2
+  snap: 2
+  recoilDampeningTime: 9
 --- !u!114 &1124494487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9766,7 +9764,6 @@ MonoBehaviour:
   magazineSize: 30
   autoReload: 0
   useRecoil: 1
-  recoilForce: 5
   muzzleFlash: {fileID: 0}
   animator: {fileID: 0}
   currentCamera: {fileID: 922523621}
