@@ -9,7 +9,7 @@ public class FirstPersonController : MonoBehaviour
 
     Rigidbody rb;
     CapsuleCollider capsule;
-    bool isWalking;
+    public static bool isWalking;
 
 
     [SerializeField] GameObject cam;

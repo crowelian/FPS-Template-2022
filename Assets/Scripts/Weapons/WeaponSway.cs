@@ -7,6 +7,10 @@ public class WeaponSway : MonoBehaviour
     [SerializeField] private float smooth;
     [SerializeField] private float multiplier;
 
+    [SerializeField] float walkSwayMax = 10f;
+
+    private float randomTimer = 0f;
+
     private void Update()
     {
         // get mouse input
@@ -16,9 +20,11 @@ public class WeaponSway : MonoBehaviour
         Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
         Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up);
 
-        Quaternion targetRotation = rotationX * rotationY;
+        Quaternion targetRotation = Quaternion.identity;
 
-        if (!Input.GetButtonUp("Fire1") && SimpleWeaponHandler.Instance.GetCurrentAmmo() > 0) // TODO: fix this... allow weapon to have recoil while shooting...
+        targetRotation = rotationX * rotationY;
+
+        if (!Input.GetButtonUp("Fire1"))
         {
             transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
         }

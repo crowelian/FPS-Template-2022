@@ -25,9 +25,13 @@ public class SimpleRecoil : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        recoilRotation = Vector3.Lerp(recoilRotation, Vector3.zero, recoilDampeningTime * Time.deltaTime);
-        currentRotation = Vector3.Slerp(currentRotation, recoilRotation, snap * Time.deltaTime);
-        transform.localRotation = Quaternion.Euler(currentRotation);
+        if (recoilRotation != Vector3.zero)
+        {
+            recoilRotation = Vector3.Lerp(recoilRotation, Vector3.zero, recoilDampeningTime * Time.deltaTime);
+            currentRotation = Vector3.Slerp(currentRotation, recoilRotation, snap * Time.deltaTime);
+            transform.localRotation = Quaternion.Euler(currentRotation);
+        }
+
     }
 
     public void AddRecoil()
