@@ -45,11 +45,13 @@ public class Weapon : MonoBehaviour
 
     private readonly int weaponUseParameter = Animator.StringToHash("WeaponUse");
 
+    [SerializeField] Camera currentCamera;
+
 
     protected virtual void Awake()
     {
         WeaponAmmo = GetComponent<WeaponAmmo>();
-        
+
         CurrentAmmo = magazineSize;
         animator = GetComponent<Animator>();
     }
@@ -57,7 +59,7 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     protected virtual void Update()
@@ -68,7 +70,7 @@ public class Weapon : MonoBehaviour
 
     public void TriggerShot()
     {
-        
+
         StartShooting();
     }
 
@@ -89,6 +91,7 @@ public class Weapon : MonoBehaviour
                 if (WeaponAmmo.CanUseWeapon())
                 {
                     RequestShot();
+
                 }
                 else
                 {
@@ -109,6 +112,7 @@ public class Weapon : MonoBehaviour
         else
         {
             RequestShot();
+
         }
     }
 
@@ -116,13 +120,14 @@ public class Weapon : MonoBehaviour
     {
         if (!CanShoot)
         {
-            
+
             return;
         }
 
         if (useRecoil)
         {
             Recoil();
+
         }
 
         if (animator != null)
@@ -139,17 +144,11 @@ public class Weapon : MonoBehaviour
         {
             GetComponent<SimpleRecoil>().AddRecoil();
         }
-        //if (WeaponOwner != null)
-        //{
-        //    if (WeaponOwner.GetComponent<CharacterFlip>().FacingRight)
-        //    {
-        //        controller.ApplyRecoil(Vector2.left, recoilForce);
-        //    }
-        //    else
-        //    {
-        //        controller.ApplyRecoil(Vector2.right, recoilForce);
-        //    }
-        //}
+        if (currentCamera.GetComponent<CameraRecoil>())
+        {
+            currentCamera.GetComponent<CameraRecoil>().Fire();
+        }
+
     }
 
     protected virtual void WeaponCanShoot()

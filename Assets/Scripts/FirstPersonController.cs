@@ -6,17 +6,14 @@ public class FirstPersonController : MonoBehaviour
 {
 
     [SerializeField] float speed = 0.1f;
-    float Xsensitivity = 4f;
-    float Ysensitivity = 4f;
-    float MinimumX = -90f;
-    float MaximumX = 90;
+
     Rigidbody rb;
     CapsuleCollider capsule;
     bool isWalking;
 
 
     [SerializeField] GameObject cam;
-    Quaternion cameraRotation;
+
     Quaternion characterRotation;
 
 
@@ -34,7 +31,7 @@ public class FirstPersonController : MonoBehaviour
 
     void Awake()
     {
-        cameraRotation = cam.transform.localRotation;
+
         characterRotation = this.transform.localRotation;
     }
     // Start is called before the first frame update
@@ -81,16 +78,7 @@ public class FirstPersonController : MonoBehaviour
 
     void FixedUpdate()
     {
-        float yRot = Input.GetAxis("Mouse X") * Xsensitivity;
-        float xRot = Input.GetAxis("Mouse Y") * Ysensitivity;
 
-        cameraRotation *= Quaternion.Euler(-xRot, 0, 0);
-        characterRotation *= Quaternion.Euler(0, yRot, 0);
-
-        cameraRotation = ClampRotationAroundXAxis(cameraRotation);
-
-        this.transform.localRotation = characterRotation;
-        cam.transform.localRotation = cameraRotation;
 
         x = Input.GetAxis("Horizontal") * speed;
         z = Input.GetAxis("Vertical") * speed;
@@ -101,19 +89,7 @@ public class FirstPersonController : MonoBehaviour
 
     }
 
-    Quaternion ClampRotationAroundXAxis(Quaternion q)
-    {
-        q.x /= q.w;
-        q.y /= q.w;
-        q.z /= q.w;
-        q.w = 1.0f;
 
-        float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
-        angleX = Mathf.Clamp(angleX, MinimumX, MaximumX);
-        q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
-
-        return q;
-    }
 
     bool IsGrounded()
     {

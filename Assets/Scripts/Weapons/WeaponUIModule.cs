@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class WeaponUIModule : MonoBehaviour
 {
 
-    public Text weaponAmmoText;
+    public TMP_Text weaponAmmoText;
 
-   public void UpdateAmmoText(string ammoCount)
+    public void UpdateAmmoText(string ammoCount)
     {
         weaponAmmoText.text = ammoCount;
     }
