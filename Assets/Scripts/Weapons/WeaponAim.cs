@@ -14,7 +14,12 @@ public class WeaponAim : MonoBehaviour
     [SerializeField]
     private bool aiming = false;
 
-   
+    private float _current, _target;
+    private float _speed = 4f;
+
+    [SerializeField] AnimationCurve _curve;
+
+
 
     public void SetAiming(bool setAiming)
     {
@@ -26,15 +31,32 @@ public class WeaponAim : MonoBehaviour
     {
         Aim();
         CancelAim();
+        AimAnimation();
     }
 
     public void Aim()
     {
-        if (aiming) weaponHolder.transform.position = aimPoint.transform.position;
+        if (aiming)
+        {
+            _target = 1;
+        }
+
     }
 
     public void CancelAim()
     {
-        if (!aiming) weaponHolder.transform.position = startPoint.transform.position;
+        if (!aiming)
+        {
+            _target = 0;
+        }
+    }
+
+    void AimAnimation()
+    {
+        _current = Mathf.MoveTowards(_current, _target, _speed * Time.deltaTime);
+
+        weaponHolder.transform.position = Vector3.Lerp(startPoint.transform.position, aimPoint.transform.position, _curve.Evaluate(_current));
+        // No rotation now... TODO: if going to use fix weapon sway and this...
+        //weaponHolder.transform.rotation = Quaternion.Lerp(Quaternion.Euler(startPoint.transform.rotation.eulerAngles), Quaternion.Euler(aimPoint.transform.rotation.eulerAngles), _curve.Evaluate(_current));
     }
 }

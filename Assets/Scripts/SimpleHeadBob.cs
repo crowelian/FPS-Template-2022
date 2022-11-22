@@ -19,7 +19,7 @@ public class SimpleHeadBob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (FirstPersonController.isWalking)
+        if (FirstPersonController.isWalking && !ShittyAimCode.isAiming)
         {
             timer += Time.deltaTime * walkingBobbingSpeed;
             transform.localPosition = new Vector3(transform.localPosition.x, defaultPosY + Mathf.Sin(timer) * bobbingAmount, transform.localPosition.z);

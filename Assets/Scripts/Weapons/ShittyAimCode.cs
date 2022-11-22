@@ -16,7 +16,7 @@ public class ShittyAimCode : MonoBehaviour
 
     public static bool isAiming;
 
-
+    WeaponAim weaponAim;
 
     private void Start()
     {
@@ -30,20 +30,52 @@ public class ShittyAimCode : MonoBehaviour
             aimCam = _aimCam;
             mainCam = _mainCam;
         }
+        if (weaponAim == null)
+        {
+            weaponAim = GetComponent<WeaponAim>();
+        }
     }
     void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            aimCam.enabled = true;
-            mainCam.enabled = false;
+            if (!isAiming)
+            {
+                if (CrosshairManager.Instance) CrosshairManager.Instance.SetAim();
+            }
+
             isAiming = true;
+
+            if (weaponAim)
+            {
+                weaponAim.SetAiming(isAiming);
+            }
+            else
+            {
+                // TODO fix this with position transition
+                aimCam.enabled = true;
+                mainCam.enabled = false;
+            }
         }
         if (Input.GetMouseButtonUp(1))
         {
-            aimCam.enabled = false;
-            mainCam.enabled = true;
+            if (isAiming)
+            {
+                if (CrosshairManager.Instance) CrosshairManager.Instance.SetDefault();
+            }
+
             isAiming = false;
+
+            if (weaponAim)
+            {
+                weaponAim.SetAiming(isAiming);
+            }
+            else
+            {
+                // TODO fix this with position transition
+                aimCam.enabled = false;
+                mainCam.enabled = true;
+            }
         }
     }
 }

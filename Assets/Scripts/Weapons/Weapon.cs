@@ -158,12 +158,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    //public void SetOwner(Character owner)
-    //{
-    //    WeaponOwner = owner;
-    //    controller = WeaponOwner.GetComponent<CharacterController2D>();
-    //}
-
     public void Reload()
     {
         if (WeaponAmmo != null)
@@ -179,20 +173,6 @@ public class Weapon : MonoBehaviour
         }
 
     }
-
-    protected virtual void RotateWeapon()
-    {
-        //if (WeaponOwner.GetComponent<CharacterFlip>().FacingRight)
-        //{
-        //    transform.localScale = new Vector3(1, 1, 1);
-        //}
-        //else
-        //{
-        //    transform.localScale = new Vector3(-1, 1, 1);
-        //}
-    }
-
-
 
 
 }
