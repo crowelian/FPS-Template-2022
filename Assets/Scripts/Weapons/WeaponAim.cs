@@ -10,6 +10,7 @@ public class WeaponAim : MonoBehaviour
     private Transform startPoint;
     [SerializeField]
     private Transform aimPoint;
+    public Vector3 offset; // TODO FIX THIS
 
     [SerializeField]
     private bool aiming = false;
@@ -17,9 +18,13 @@ public class WeaponAim : MonoBehaviour
     private float _current, _target;
     private float _speed = 4f;
 
+
     [SerializeField] AnimationCurve _curve;
 
-
+    public void SetOffset()
+    {
+        weaponHolder.transform.position += offset;
+    }
 
     public void SetAiming(bool setAiming)
     {
@@ -32,6 +37,7 @@ public class WeaponAim : MonoBehaviour
         Aim();
         CancelAim();
         AimAnimation();
+        SetOffset();
     }
 
     public void Aim()

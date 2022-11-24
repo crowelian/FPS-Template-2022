@@ -42,5 +42,11 @@ public class CrosshairManager : MonoBehaviour
 
     }
 
+    public void SetCrosshairVisibility(bool set)
+    {
+        crosshairActive = set;
+        crosshairImage.enabled = set;
+    }
+
 
 }

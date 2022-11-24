@@ -16,7 +16,7 @@ public class ShittyAimCode : MonoBehaviour
 
     public static bool isAiming;
 
-    WeaponAim weaponAim;
+    [SerializeField] WeaponAim weaponAim;
 
     private void Start()
     {
