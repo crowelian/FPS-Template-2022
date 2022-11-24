@@ -2,18 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class KeyCodeValuePair
+{
+
+    public string key;
+    public KeyCode value;
+    public KeyCodeValuePair(string name, KeyCode keyCode)
+    {
+        this.key = name;
+        this.value = keyCode;
+    }
+}
+
 public class InputManager : MonoBehaviour
 {
 
     public static InputManager Instance;
 
     // TODO not gonna work fix this
-    public KeyCode toggleAttachment1 = KeyCode.K;
+    public List<KeyCodeValuePair> KeycodesList = new List<KeyCodeValuePair>();
+
+    // TODO fix this!
+    public KeyCode toggleAttachmentLeftFront = KeyCode.K;
+    public KeyCode toggleAttachmentScope = KeyCode.O;
+
 
     void Awake()
     {
         if (Instance != null) { Destroy(this); }
         else Instance = this;
+
+        KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentLeftFront", toggleAttachmentLeftFront));
+        KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentScope", toggleAttachmentScope));
     }
 
     // Start is called before the first frame update

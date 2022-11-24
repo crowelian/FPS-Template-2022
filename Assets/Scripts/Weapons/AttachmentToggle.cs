@@ -2,15 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Attachment))]
 public class AttachmentToggle : MonoBehaviour
 {
 
     // Todo fix this
-    public KeyCode toggleAttachmentKey = InputManager.Instance.toggleAttachment1; // TODO: fix this!
+    [SerializeField] private KeyCode toggleAttachmentKey;
+
+    public List<KeyCodeValuePair> keys;
 
     // TODO fix also this
     [SerializeField] GameObject toggleMe;
 
+    void Start()
+    {
+        keys = InputManager.Instance.KeycodesList;
+        foreach (var x in keys)
+        {
+            if (GetComponent<Attachment>().attachmentName == x.key)
+            {
+                toggleAttachmentKey = x.value;
+                break;
+            }
+        }
+
+
+    }
     // Update is called once per frame
     void Update()
     {
