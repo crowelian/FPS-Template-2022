@@ -9744,8 +9744,8 @@ GameObject:
   - component: {fileID: 1124494487}
   - component: {fileID: 1124494488}
   - component: {fileID: 1124494490}
-  - component: {fileID: 891523318}
   - component: {fileID: 891523319}
+  - component: {fileID: 891523320}
   m_Layer: 0
   m_Name: Weapon_Assault_Rifle
   m_TagString: Untagged
@@ -9784,20 +9784,6 @@ MonoBehaviour:
   smooth: 11
   multiplier: 9
   walkSwayMax: 5
---- !u!114 &891523318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891523315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4971b9eab344756468bc7dc101bbffa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkingBobbingSpeed: 8
-  bobbingAmount: 0.02
 --- !u!114 &891523319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9839,6 +9825,21 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &891523320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891523315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5ebfcd341852b469f032bca6606ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponBobbingSpeed: 6
+  bobbingAmount: 0.02
+  isBobbingAway: 0
 --- !u!1001 &918269972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18056,7 +18057,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0246342e4046784895bdb6d7243d2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: -0.04, z: 0}
+  offset: {x: 0, y: -0.03, z: 0}
+--- !u!114 &1767328492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767328487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b92f05ee97c7e4da856577c7d0b09a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scopeCamera: {fileID: 455163950}
+  zoomedOutFov: 25
+  zoomedInFov: 10
+  toggledZoom: 0
+  zoomSpeed: 2
 --- !u!1001 &1775471204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18987,6 +19005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toggleAttachmentLeftFront: 107
   toggleAttachmentScope: 111
+  toggleAttachmentZoom: 113
 --- !u!4 &1954219720
 Transform:
   m_ObjectHideFlags: 0

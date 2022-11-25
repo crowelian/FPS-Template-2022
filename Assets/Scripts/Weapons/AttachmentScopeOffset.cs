@@ -10,6 +10,7 @@ public class AttachmentScopeOffset : MonoBehaviour
     {
         if (ShittyAimCode.isAiming && GetComponent<Attachment>().attachmentModel.activeInHierarchy) // fix this, just baaad
         {
+            GetComponent<Attachment>().attachmentWeapon.GetComponent<WeaponAim>().SetOffset(true);
             GetComponent<Attachment>().attachmentWeapon.GetComponent<WeaponAim>().offset = offset;
             CrosshairManager.Instance.SetCrosshairVisibility(false);
         }

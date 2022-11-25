@@ -18,12 +18,13 @@ public class WeaponAim : MonoBehaviour
     private float _current, _target;
     private float _speed = 4f;
 
+    private bool useOffset = false;
 
     [SerializeField] AnimationCurve _curve;
 
-    public void SetOffset()
+    public void SetOffset(bool offset = false)
     {
-        weaponHolder.transform.position += offset;
+        useOffset = offset;
     }
 
     public void SetAiming(bool setAiming)
@@ -36,8 +37,10 @@ public class WeaponAim : MonoBehaviour
     {
         Aim();
         CancelAim();
+        //SetOffset();
         AimAnimation();
-        SetOffset();
+
+
     }
 
     public void Aim()
@@ -59,10 +62,23 @@ public class WeaponAim : MonoBehaviour
 
     void AimAnimation()
     {
-        _current = Mathf.MoveTowards(_current, _target, _speed * Time.deltaTime);
 
-        weaponHolder.transform.position = Vector3.Lerp(startPoint.transform.position, aimPoint.transform.position, _curve.Evaluate(_current));
-        // No rotation now... TODO: if going to use fix weapon sway and this...
-        //weaponHolder.transform.rotation = Quaternion.Lerp(Quaternion.Euler(startPoint.transform.rotation.eulerAngles), Quaternion.Euler(aimPoint.transform.rotation.eulerAngles), _curve.Evaluate(_current));
+        _current = Mathf.MoveTowards(_current, _target, _speed * Time.deltaTime);
+        float time = _curve.Evaluate(_current);
+
+        if (time > 0) // check that animation done (and not aiming)
+        {
+            weaponHolder.transform.position = Vector3.Lerp(startPoint.transform.position, aimPoint.transform.position, time);
+            // No rotation now... TODO: if going to use fix weapon sway and this...
+            //weaponHolder.transform.rotation = Quaternion.Lerp(Quaternion.Euler(startPoint.transform.rotation.eulerAngles), Quaternion.Euler(aimPoint.transform.rotation.eulerAngles), _curve.Evaluate(_current));
+
+            offset = offset + Vector3.Lerp(offset, Vector3.zero, time);
+
+            if (useOffset)
+            {
+                if (aiming) weaponHolder.transform.position = Vector3.Lerp(startPoint.transform.position, aimPoint.transform.position + offset, _curve.Evaluate(_current));
+            }
+        }
+
     }
 }
