@@ -69,4 +69,4 @@ Textures
 Lightmap-*
 LightingData.asset
 *.zip
-!Assets/textures/own
+!Assets/Textures/own
