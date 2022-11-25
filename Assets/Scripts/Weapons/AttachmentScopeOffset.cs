@@ -31,8 +31,12 @@ public class AttachmentScopeOffset : MonoBehaviour
 
     void UnsetAll()
     {
-        GetComponent<Attachment>().attachmentWeapon.GetComponent<WeaponAim>().offset = Vector3.zero;
-        CrosshairManager.Instance.SetCrosshairVisibility(true);
+        if (GetComponent<Attachment>().attachmentModel.activeInHierarchy)
+        {
+            GetComponent<Attachment>().attachmentWeapon.GetComponent<WeaponAim>().offset = Vector3.zero;
+            CrosshairManager.Instance.SetCrosshairVisibility(true);
+            CrosshairManager.Instance.SetDefault();
+        }
     }
 
 }

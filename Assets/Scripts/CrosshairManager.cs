@@ -29,7 +29,7 @@ public class CrosshairManager : MonoBehaviour
     {
         if (crosshairActive)
         {
-            crosshairImage.material.color = colorDefault;
+            SetCrosshairColor(colorDefault);
         }
 
     }
@@ -37,7 +37,7 @@ public class CrosshairManager : MonoBehaviour
     {
         if (crosshairActive)
         {
-            crosshairImage.material.color = colorAim;
+            SetCrosshairColor(colorAim);
         }
 
     }
@@ -45,7 +45,18 @@ public class CrosshairManager : MonoBehaviour
     public void SetCrosshairVisibility(bool set)
     {
         crosshairActive = set;
-        crosshairImage.enabled = set;
+        if (crosshairImage) crosshairImage.enabled = set;
+    }
+
+    void SetCrosshairColor(Color color)
+    {
+        if (!crosshairImage)
+        {
+            return;
+        }
+        // var crosshairRenderer = crosshairImage.gameObject.GetComponent<Renderer>();
+        // crosshairRenderer.material.SetColor("_Color", color);
+        crosshairImage.color = color;
     }
 
 
