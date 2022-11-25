@@ -9,7 +9,7 @@ public class PlayerInteractUI : MonoBehaviour
     [SerializeField] private PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactTextMeshProUGUI;
 
-    [SerializeField] TMPro.TMP_Text healthText;
+    [SerializeField] TMP_Text healthText;
     [SerializeField] TMP_Text ammoText;
 
     private void Update()
