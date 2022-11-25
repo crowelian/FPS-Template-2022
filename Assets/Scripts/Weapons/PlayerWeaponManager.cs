@@ -223,12 +223,21 @@ public class PlayerWeaponManager : MonoBehaviour
         {
             GameObject hitObject = hitInfo.collider.gameObject;
             GameObject hitDebris1 = Instantiate(hitDebris, hitInfo.point, Quaternion.identity);
-            Material newHitMat = new Material(Shader.Find("Standard"));
+            Material newHitMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
             newHitMat.color = new Color(1, 1, 1, 1);
             hitDebris1.GetComponent<MeshRenderer>().material = newHitMat;
             if (hitObject.GetComponent<MeshRenderer>())
             {
-                hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<MeshRenderer>().sharedMaterial.color;
+                string findTexture = "_BaseMap";
+                Texture2D materialTexture2d = hitObject.GetComponent<MeshRenderer>().sharedMaterial.GetTexture(findTexture) as Texture2D;
+                if (materialTexture2d && materialTexture2d.isReadable)
+                {
+                    hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = materialTexture2d.GetPixel((int)hitInfo.textureCoord.x, (int)hitInfo.textureCoord.y);
+                }
+                else
+                {
+                    hitDebris1.GetComponent<MeshRenderer>().sharedMaterial.color = hitObject.GetComponent<MeshRenderer>().sharedMaterial.color;
+                }
             }
             else if (hitObject.GetComponent<HitColor>())
             {
