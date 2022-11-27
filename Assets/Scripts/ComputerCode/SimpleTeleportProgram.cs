@@ -5,10 +5,18 @@ using UnityEngine;
 public class SimpleTeleportProgram : MonoBehaviour
 {
 
-    [SerializeField] Transform teleportTo;
+    [SerializeField] Environment environment;
+
 
     public void TeleportPlayerTo()
     {
-        FirstPersonController.Instance.gameObject.transform.position = teleportTo.transform.position;
+        if (environment)
+        {
+            environment.EnableEnvironment();
+        }
+        if (environment.playerTeleportLocation)
+        {
+            FirstPersonController.Instance.gameObject.transform.position = environment.playerTeleportLocation.transform.position;
+        }
     }
 }

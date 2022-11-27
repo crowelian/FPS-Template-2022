@@ -11,6 +11,9 @@ public class FirstPersonController : MonoBehaviour
     Rigidbody rb;
     CapsuleCollider capsule;
     public static bool isWalking;
+    public static bool isRunning;
+
+    float runningMultiplier = 1.7f;
 
     public bool canControlPlayer = true; // TODO Fix this
 
@@ -58,7 +61,15 @@ public class FirstPersonController : MonoBehaviour
                     if (IsGrounded())
                     {
                         isWalking = true;
-                        InvokeRepeating("PlayFootStepAudio", 0, 0.3f);
+                        if (isRunning)
+                        {
+                            InvokeRepeating("PlayFootStepAudio", 0, 0.1f);
+                        }
+                        else
+                        {
+                            InvokeRepeating("PlayFootStepAudio", 0, 0.3f);
+                        }
+
                     }
                     else
                     {
@@ -79,6 +90,9 @@ public class FirstPersonController : MonoBehaviour
                 rb.AddForce(0, 300, 0);
                 AudioManager.PlayAudioIfNotPlaying(jump);
             }
+
+
+
         }
 
 
@@ -91,13 +105,31 @@ public class FirstPersonController : MonoBehaviour
             x = Input.GetAxis("Horizontal") * speed;
             z = Input.GetAxis("Vertical") * speed;
 
+            IsRunning();
+
+            if (isRunning)
+            {
+                x = x * (runningMultiplier * 0.8f);
+                z = z * runningMultiplier;
+            }
+
 
             transform.position += cam.transform.forward * z + cam.transform.right * x; //new Vector3(x * speed, 0, z * speed);
         }
 
     }
 
-
+    void IsRunning()
+    {
+        if (Input.GetKey(InputManager.Instance.run))
+        {
+            isRunning = true;
+        }
+        else
+        {
+            isRunning = false;
+        }
+    }
 
     bool IsGrounded()
     {

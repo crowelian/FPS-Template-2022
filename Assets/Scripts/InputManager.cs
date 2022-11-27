@@ -29,6 +29,7 @@ public class InputManager : MonoBehaviour
     public KeyCode toggleAttachmentZoom = KeyCode.Q; // fix this... attachment will have a secondary function or something... 
 
     public KeyCode use = KeyCode.E;
+    public KeyCode run = KeyCode.LeftShift;
 
 
     void Awake()
@@ -36,10 +37,12 @@ public class InputManager : MonoBehaviour
         if (Instance != null) { Destroy(this); }
         else Instance = this;
 
+        KeycodesList.Add(new KeyCodeValuePair("use", use));
+        KeycodesList.Add(new KeyCodeValuePair("run", run));
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentLeftFront", toggleAttachmentLeftFront));
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentScope", toggleAttachmentScope));
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentZoom", toggleAttachmentZoom));
-        KeycodesList.Add(new KeyCodeValuePair("use", use));
+
     }
 
     // Start is called before the first frame update
