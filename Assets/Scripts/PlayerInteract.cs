@@ -6,19 +6,18 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
 
-    [SerializeField] float interactRange = 4f;
-    [SerializeField] KeyCode interactActionKey = KeyCode.E; // fix this to use some input configurer etc...
+    [SerializeField] float interactRange = 3f;
+    KeyCode interactActionKey;
 
-    // Update is called once per frame
+    void Start()
+    {
+        interactActionKey = InputManager.Instance.use;
+    }
+
     void Update()
     {
         if (Input.GetKeyUp(interactActionKey))
         {
-            // Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
-            // foreach (Collider collider in colliderArray)
-            // {
-            //     Debug.Log(collider);
-            // }
             IInteractable interactable = GetInteractableObject();
             if (interactable != null)
             {

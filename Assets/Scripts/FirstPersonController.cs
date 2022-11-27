@@ -5,11 +5,14 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
 
+    public static FirstPersonController Instance;
     [SerializeField] float speed = 0.1f;
 
     Rigidbody rb;
     CapsuleCollider capsule;
     public static bool isWalking;
+
+    public bool canControlPlayer = true; // TODO Fix this
 
 
     [SerializeField] GameObject cam;
@@ -31,7 +34,8 @@ public class FirstPersonController : MonoBehaviour
 
     void Awake()
     {
-
+        if (Instance != null) { Destroy(this); }
+        else Instance = this;
         characterRotation = this.transform.localRotation;
     }
     // Start is called before the first frame update
@@ -45,47 +49,51 @@ public class FirstPersonController : MonoBehaviour
     void Update()
     {
 
-        if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
+        if (canControlPlayer)
         {
-            if (isWalking == false)
+            if (Mathf.Abs(x) > 0 || Mathf.Abs(z) > 0)
             {
-                if (IsGrounded())
+                if (isWalking == false)
                 {
-                    isWalking = true;
-                    InvokeRepeating("PlayFootStepAudio", 0, 0.3f);
+                    if (IsGrounded())
+                    {
+                        isWalking = true;
+                        InvokeRepeating("PlayFootStepAudio", 0, 0.3f);
+                    }
+                    else
+                    {
+                        isWalking = false;
+                        CancelInvoke("PlayFootStepAudio");
+                    }
                 }
-                else
-                {
-                    isWalking = false;
-                    CancelInvoke("PlayFootStepAudio");
-                }
+
+            }
+            else
+            {
+                isWalking = false;
+                CancelInvoke("PlayFootStepAudio");
             }
 
-        }
-        else
-        {
-            isWalking = false;
-            CancelInvoke("PlayFootStepAudio");
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+            {
+                rb.AddForce(0, 300, 0);
+                AudioManager.PlayAudioIfNotPlaying(jump);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            rb.AddForce(0, 300, 0);
-            AudioManager.PlayAudioIfNotPlaying(jump);
-        }
 
     }
 
     void FixedUpdate()
     {
+        if (canControlPlayer)
+        {
+            x = Input.GetAxis("Horizontal") * speed;
+            z = Input.GetAxis("Vertical") * speed;
 
 
-        x = Input.GetAxis("Horizontal") * speed;
-        z = Input.GetAxis("Vertical") * speed;
-
-
-        transform.position += cam.transform.forward * z + cam.transform.right * x; //new Vector3(x * speed, 0, z * speed);
-
+            transform.position += cam.transform.forward * z + cam.transform.right * x; //new Vector3(x * speed, 0, z * speed);
+        }
 
     }
 
