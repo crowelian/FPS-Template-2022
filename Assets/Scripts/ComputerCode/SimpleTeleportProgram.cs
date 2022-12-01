@@ -5,7 +5,7 @@ using UnityEngine;
 public class SimpleTeleportProgram : MonoBehaviour
 {
 
-    [SerializeField] Environment environment;
+    [SerializeField] SceneEnvironment environment;
 
 
     public void TeleportPlayerTo()
