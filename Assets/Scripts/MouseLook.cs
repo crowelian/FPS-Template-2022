@@ -23,6 +23,13 @@ public class MouseLook : MonoBehaviour
         // cameraRotation = ShittyAimCode.mainCam.transform.localRotation;
     }
 
+    void Start()
+    {
+        lookSpeed = SettingsManager.Instance.mouseLookSpeed;
+        Xsensitivity = SettingsManager.Instance.GetMouseSensitivityX();
+        Ysensitivity = SettingsManager.Instance.GetMouseSensitivityY();
+    }
+
     private void Update()
     {
         Look();
