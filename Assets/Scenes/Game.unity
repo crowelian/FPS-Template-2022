@@ -6993,6 +6993,36 @@ Transform:
   m_Father: {fileID: 1945956726}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &480304755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 480304756}
+  m_Layer: 0
+  m_Name: TestWaypoint 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &480304756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480304755}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9.861967, y: 0.099999905, z: 7.5405326}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &480743027
 GameObject:
   m_ObjectHideFlags: 0
@@ -35179,6 +35209,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2012176886}
   m_Mesh: {fileID: 4300000, guid: 4c40c8ef3afd0b446a31802e6f82ee5f, type: 3}
+--- !u!1 &2014688089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2014688090}
+  m_Layer: 0
+  m_Name: TestWaypoint 1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2014688090
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014688089}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.97, y: 0.099999905, z: 7.5405326}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2027853425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65204,7 +65264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3646375268398067098}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.621967, y: 0.099999905, z: 7.5405326}
+  m_LocalPosition: {x: -5.621967, y: 0.198, z: 7.5405326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3644455311224940538}
@@ -66906,6 +66966,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3642429160468434574}
   - component: {fileID: 3732867643654732324}
+  - component: {fileID: 3646375268398067099}
+  - component: {fileID: 3646375268398067100}
   m_Layer: 0
   m_Name: Enemy_Character_Cop_01
   m_TagString: Untagged
@@ -66913,6 +66975,68 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3646375268398067099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3646375268398067098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8facb5efd63abe41a6f174c319a6ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAttacking: 0
+  isAiming: 0
+  isWalking: 0
+  isIdle: 1
+  on: 1
+  canFly: 0
+  floatHeight: 0
+  runAway: 0
+  runTo: 0
+  runDistance: 25
+  runBufferDistance: 50
+  walkSpeed: 2
+  runSpeed: 5
+  randomSpeed: 4
+  rotationSpeed: 8
+  visualRadius: 10
+  moveableRadius: 20
+  attackRange: 10
+  attackTime: 0.5
+  useWaypoints: 1
+  reversePatrol: 1
+  waypoints:
+  - {fileID: 480304756}
+  - {fileID: 2014688090}
+  pauseAtWaypoints: 1
+  pauseMin: 1
+  pauseMax: 9
+  huntingTimer: 5
+  estimateElevation: 0
+  estRayTimer: 1
+  requireTarget: 0
+  target: {fileID: 861607493}
+--- !u!143 &3646375268398067100
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3646375268398067098}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.88
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3646376962016846512
 GameObject:
   m_ObjectHideFlags: 0
