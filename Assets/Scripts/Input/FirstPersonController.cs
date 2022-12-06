@@ -43,6 +43,7 @@ public class FirstPersonController : MonoBehaviour
         if (Instance != null) { Destroy(this); }
         else Instance = this;
         characterRotation = this.transform.localRotation;
+
     }
     // Start is called before the first frame update
     void Start()
@@ -96,6 +97,10 @@ public class FirstPersonController : MonoBehaviour
 
 
 
+        }
+        else
+        {
+            CancelInvoke("PlayFootStepAudio");
         }
 
 
@@ -240,7 +245,10 @@ public class FirstPersonController : MonoBehaviour
 
 
 
-
+    public void SetPlayerCameraEnabled(bool set)
+    {
+        cam.GetComponent<Camera>().enabled = set;
+    }
 
 
 

@@ -24,9 +24,13 @@ public class CameraRecoil : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.currentRotation = Vector3.Lerp(this.currentRotation, Vector3.zero, this.returnSpeed * Time.deltaTime);
-        this.Rot = Vector3.Slerp(this.Rot, this.currentRotation, this.rotationSpeed * Time.fixedDeltaTime);
-        this.cameraHolder.localRotation = Quaternion.Euler(this.Rot);
+        if (FirstPersonController.Instance.canControlPlayer)
+        {
+            this.currentRotation = Vector3.Lerp(this.currentRotation, Vector3.zero, this.returnSpeed * Time.deltaTime);
+            this.Rot = Vector3.Slerp(this.Rot, this.currentRotation, this.rotationSpeed * Time.fixedDeltaTime);
+            this.cameraHolder.localRotation = Quaternion.Euler(this.Rot);
+        }
+
     }
 
     public void Fire()

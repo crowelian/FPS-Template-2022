@@ -31,6 +31,9 @@ public class InputManager : MonoBehaviour
     public KeyCode use = KeyCode.E;
     public KeyCode run = KeyCode.LeftShift;
 
+    public KeyCode spaceShipThruster = KeyCode.Space;
+    public KeyCode spaceShipRollLeft = KeyCode.Q;
+    public KeyCode spaceShipRollRight = KeyCode.E;
 
     void Awake()
     {
@@ -42,6 +45,10 @@ public class InputManager : MonoBehaviour
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentLeftFront", toggleAttachmentLeftFront));
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentScope", toggleAttachmentScope));
         KeycodesList.Add(new KeyCodeValuePair("toggleAttachmentZoom", toggleAttachmentZoom));
+
+        KeycodesList.Add(new KeyCodeValuePair("spaceShipThruster", spaceShipThruster));
+        KeycodesList.Add(new KeyCodeValuePair("spaceShipRollLeft", spaceShipRollLeft));
+        KeycodesList.Add(new KeyCodeValuePair("spaceShipRollRight", spaceShipRollRight));
 
     }
 

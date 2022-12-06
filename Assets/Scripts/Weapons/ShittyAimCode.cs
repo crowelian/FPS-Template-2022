@@ -37,45 +37,49 @@ public class ShittyAimCode : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (FirstPersonController.Instance.canControlPlayer)
         {
-            if (!isAiming)
+            if (Input.GetMouseButtonDown(1))
             {
-                if (CrosshairManager.Instance) CrosshairManager.Instance.SetAim();
-            }
+                if (!isAiming)
+                {
+                    if (CrosshairManager.Instance) CrosshairManager.Instance.SetAim();
+                }
 
-            isAiming = true;
+                isAiming = true;
 
-            if (weaponAim)
-            {
-                weaponAim.SetAiming(isAiming);
+                if (weaponAim)
+                {
+                    weaponAim.SetAiming(isAiming);
+                }
+                else
+                {
+                    // TODO fix this with position transition
+                    aimCam.enabled = true;
+                    mainCam.enabled = false;
+                }
             }
-            else
+            if (Input.GetMouseButtonUp(1))
             {
-                // TODO fix this with position transition
-                aimCam.enabled = true;
-                mainCam.enabled = false;
+                if (isAiming)
+                {
+                    if (CrosshairManager.Instance) CrosshairManager.Instance.SetDefault();
+                }
+
+                isAiming = false;
+
+                if (weaponAim)
+                {
+                    weaponAim.SetAiming(isAiming);
+                }
+                else
+                {
+                    // TODO fix this with position transition
+                    aimCam.enabled = false;
+                    mainCam.enabled = true;
+                }
             }
         }
-        if (Input.GetMouseButtonUp(1))
-        {
-            if (isAiming)
-            {
-                if (CrosshairManager.Instance) CrosshairManager.Instance.SetDefault();
-            }
 
-            isAiming = false;
-
-            if (weaponAim)
-            {
-                weaponAim.SetAiming(isAiming);
-            }
-            else
-            {
-                // TODO fix this with position transition
-                aimCam.enabled = false;
-                mainCam.enabled = true;
-            }
-        }
     }
 }

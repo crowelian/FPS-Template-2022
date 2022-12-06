@@ -57,84 +57,89 @@ public class PlayerWeaponManager : MonoBehaviour
     protected void HandleInput()
     {
 
-        // TODO FIX THIS:
-        if (Input.GetMouseButtonDown(0))
+        if (FirstPersonController.Instance.canControlPlayer)
         {
-            if (GetComponent<SimpleWeaponHandler>().GetCurrentAmmo() <= 0)
+            // TODO FIX THIS:
+            if (Input.GetMouseButtonDown(0))
             {
-                // TODO: play empty clip sound here!
-                return;
+                if (GetComponent<SimpleWeaponHandler>().GetCurrentAmmo() <= 0)
+                {
+                    // TODO: play empty clip sound here!
+                    return;
+                }
+
+                AudioManager.PlayAudioIfNotPlaying(shoot, true);
+                if (CurrentWeapon != null)
+                {
+                    CurrentWeapon.GetComponent<SimpleRecoil>().AddRecoil();
+                }
+                ProcessWeaponHit();
+                GetComponent<SimpleWeaponHandler>().RemoveAmmo(1);
+
             }
+            // END OF FIX THIS
 
-            AudioManager.PlayAudioIfNotPlaying(shoot, true);
-            if (CurrentWeapon != null)
-            {
-                CurrentWeapon.GetComponent<SimpleRecoil>().AddRecoil();
-            }
-            ProcessWeaponHit();
-            GetComponent<SimpleWeaponHandler>().RemoveAmmo(1);
-
-        }
-        // END OF FIX THIS
-
-        if (Input.GetMouseButton(1))
-        {
-            Aim();
-        }
-        else
-        {
-            CancelAim();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Debug.Log("reload");
-        }
-
-
-
-
-        if (Input.GetMouseButton(0))
-        {
-            if (weapons[1].activeInHierarchy)
-            {
-
-                Shoot();
-            }
-
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            if (weapons[1].activeInHierarchy)
+            if (Input.GetMouseButton(1))
             {
                 Aim();
             }
+            else
+            {
+                CancelAim();
+            }
 
-        }
-        else
-        {
-            CancelAim();
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Debug.Log("reload");
+            }
+
+
+
+
+            if (Input.GetMouseButton(0))
+            {
+                if (weapons[1].activeInHierarchy)
+                {
+
+                    Shoot();
+                }
+
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                if (weapons[1].activeInHierarchy)
+                {
+                    Aim();
+                }
+
+            }
+            else
+            {
+                CancelAim();
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                StopWeapon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Reload();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                weapons[1].SetActive(false);
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha2))
+            {
+                weapons[1].SetActive(true);
+            }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            StopWeapon();
-        }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Reload();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            weapons[1].SetActive(false);
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            weapons[1].SetActive(true);
-        }
     }
 
     public void Shoot()

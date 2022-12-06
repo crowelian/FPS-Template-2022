@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SceneEnvironment : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class SceneEnvironment : MonoBehaviour
     [SerializeField] bool disableFirstPersonController = false;
     [SerializeField] bool disablePlayerColliders = false;
     [SerializeField] bool hidePlayerGear = false;
+    [SerializeField] bool disablePlayerCamera = false;
 
     [SerializeField] Transform forcePlayerFollowThis = null;
+
+    [SerializeField] UnityEvent customStartEvent;
 
     void Start()
     {
@@ -24,15 +28,16 @@ public class SceneEnvironment : MonoBehaviour
         }
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (environment.activeInHierarchy)
         {
             if (forcePlayerFollowThis != null)
             {
-                FirstPersonController.Instance.gameObject.transform.position = forcePlayerFollowThis.transform.position;
-                // TODO: fix this... make clamped cockpit mouselook!
-                //FirstPersonController.Instance.gameObject.transform.rotation = forcePlayerFollowThis.transform.rotation;
+                // FirstPersonController.Instance.gameObject.transform.position = forcePlayerFollowThis.transform.position;
+                // FirstPersonController.Instance.gameObject.transform.rotation = forcePlayerFollowThis.transform.rotation;
+
+
             }
         }
     }
@@ -45,7 +50,24 @@ public class SceneEnvironment : MonoBehaviour
         if (disableFirstPersonController && disablePlayerColliders)
         {
             FirstPersonController.Instance.gameObject.transform.position = playerTeleportLocation.transform.position;
+            FirstPersonController.isWalking = false; // TODO: fix
+
+
+            FirstPersonController.Instance.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+
+            if (forcePlayerFollowThis)
+            {
+                FirstPersonController.Instance.gameObject.transform.SetParent(forcePlayerFollowThis);
+            }
         }
+        else
+        {
+            FirstPersonController.Instance.gameObject.transform.SetParent(null);
+            FirstPersonController.Instance.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+
+        }
+
+        FirstPersonController.Instance.SetPlayerCameraEnabled(!disablePlayerCamera);
 
         if (useFog)
         {
@@ -73,7 +95,19 @@ public class SceneEnvironment : MonoBehaviour
             environment.SetActive(true);
         }
 
+        if (customStartEvent != null)
+        {
+            try
+            {
+                customStartEvent.Invoke();
+            }
+            catch
+            {
+                Debug.LogError("Error with customStartEvent");
+            }
 
+            return;
+        }
 
 
     }
