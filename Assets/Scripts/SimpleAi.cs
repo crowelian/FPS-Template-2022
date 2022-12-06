@@ -861,7 +861,7 @@ public class SimpleAi : MonoBehaviour
         float movingVelocity = velocityX + velocityZ;
         float fallingVelocity = velocityY;
 
-        Debug.Log(movingVelocity);
+        //Debug.Log(movingVelocity);
 
         if (movingVelocity != 0)
         {

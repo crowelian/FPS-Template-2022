@@ -39,7 +39,11 @@ public class SimpleSpaceshipController : MonoBehaviour
         thisPlayer = gameObject;
         shotTimer = 0;
         health = 0.3f;
-        healthBar.transform.localScale = new Vector3(0.1f, health, 0.1f);
+        if (healthBar)
+        {
+            healthBar.transform.localScale = new Vector3(0.1f, health, 0.1f);
+        }
+
         if (playerCanControl)
         {
             playerCamera.enabled = true;

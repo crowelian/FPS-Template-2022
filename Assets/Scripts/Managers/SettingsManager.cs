@@ -13,8 +13,10 @@ public class SettingsManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("Awake initialization");
         if (Instance != null) { Destroy(this); }
         else Instance = this;
+        Debug.Log("Awake initialization over");
     }
 
 

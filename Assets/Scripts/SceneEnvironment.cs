@@ -30,16 +30,20 @@ public class SceneEnvironment : MonoBehaviour
 
     void Update()
     {
-        if (environment.activeInHierarchy)
+        if (environment != null)
         {
-            if (forcePlayerFollowThis != null)
+            if (environment.activeInHierarchy)
             {
-                // FirstPersonController.Instance.gameObject.transform.position = forcePlayerFollowThis.transform.position;
-                // FirstPersonController.Instance.gameObject.transform.rotation = forcePlayerFollowThis.transform.rotation;
+                if (forcePlayerFollowThis != null)
+                {
+                    // FirstPersonController.Instance.gameObject.transform.position = forcePlayerFollowThis.transform.position;
+                    // FirstPersonController.Instance.gameObject.transform.rotation = forcePlayerFollowThis.transform.rotation;
 
 
+                }
             }
         }
+
     }
 
     public void EnableEnvironment()

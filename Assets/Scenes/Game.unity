@@ -4493,7 +4493,7 @@ Transform:
   - {fileID: 92588810}
   - {fileID: 1644455677}
   m_Father: {fileID: 977980711}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &320943842
 MonoBehaviour:
@@ -24068,9 +24068,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 320943841}
   - {fileID: 1442538827}
   - {fileID: 1090779367}
-  - {fileID: 320943841}
   - {fileID: 1584849440}
   m_Father: {fileID: 2002677428}
   m_RootOrder: 1
@@ -24930,7 +24930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4633582219971446, guid: 0a8a83512bf4eb440b2f640bed8eef96, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4633582219971446, guid: 0a8a83512bf4eb440b2f640bed8eef96, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29232,7 +29232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4743434972539270, guid: 5e44aa63e67267e4bb93c731f4bb1414, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4743434972539270, guid: 5e44aa63e67267e4bb93c731f4bb1414, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35307,6 +35307,7 @@ GameObject:
   - component: {fileID: 1954219718}
   - component: {fileID: 1954219719}
   - component: {fileID: 1954219721}
+  - component: {fileID: 1954219722}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -35375,6 +35376,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad13e59e8c3dfa948904d9d500202502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1954219722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954219717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fca0069b623352479a04f2bbd741475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseSensitivityX: 3
+  mouseSensitivityY: 3
+  mouseLookSpeed: 4
 --- !u!1001 &1955952811
 PrefabInstance:
   m_ObjectHideFlags: 0

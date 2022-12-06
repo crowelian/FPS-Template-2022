@@ -18,11 +18,6 @@ public class MouseLook : MonoBehaviour
 
     Quaternion cameraRotation;
 
-    void Awake()
-    {
-        // cameraRotation = ShittyAimCode.mainCam.transform.localRotation;
-    }
-
     void Start()
     {
         lookSpeed = SettingsManager.Instance.mouseLookSpeed;
