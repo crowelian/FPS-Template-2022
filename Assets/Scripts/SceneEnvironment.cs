@@ -10,6 +10,11 @@ public class SceneEnvironment : MonoBehaviour
     [SerializeField] bool useFog = true;
     [SerializeField] bool useGravity = true;
     [SerializeField] bool hideEnvironmentAtStart = false;
+    [SerializeField] bool disableFirstPersonController = false;
+    [SerializeField] bool disablePlayerColliders = false;
+    [SerializeField] bool hidePlayerGear = false;
+
+    [SerializeField] Transform forcePlayerFollowThis = null;
 
     void Start()
     {
@@ -19,8 +24,29 @@ public class SceneEnvironment : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        if (environment.activeInHierarchy)
+        {
+            if (forcePlayerFollowThis != null)
+            {
+                FirstPersonController.Instance.gameObject.transform.position = forcePlayerFollowThis.transform.position;
+                // TODO: fix this... make clamped cockpit mouselook!
+                //FirstPersonController.Instance.gameObject.transform.rotation = forcePlayerFollowThis.transform.rotation;
+            }
+        }
+    }
+
     public void EnableEnvironment()
     {
+        FirstPersonController.Instance.canControlPlayer = !disableFirstPersonController;
+        FirstPersonController.Instance.capsule.enabled = !disablePlayerColliders;
+        FirstPersonController.Instance.playerGear.SetActive(hidePlayerGear);
+        if (disableFirstPersonController && disablePlayerColliders)
+        {
+            FirstPersonController.Instance.gameObject.transform.position = playerTeleportLocation.transform.position;
+        }
+
         if (useFog)
         {
             GraphicalSettings.Instance.EnableFog();
@@ -46,6 +72,9 @@ public class SceneEnvironment : MonoBehaviour
         {
             environment.SetActive(true);
         }
+
+
+
 
     }
 

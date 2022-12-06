@@ -9,7 +9,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] float speed = 0.1f;
 
     Rigidbody rb;
-    CapsuleCollider capsule;
+    public CapsuleCollider capsule;
     public static bool isWalking;
     public static bool isRunning;
 
@@ -33,6 +33,9 @@ public class FirstPersonController : MonoBehaviour
 
     public AudioSource healthPickup;
     public AudioSource ammoPickup;
+
+
+    public GameObject playerGear; // easier to enable / disable all weapons, helmet, shield etc...
 
 
     void Awake()
