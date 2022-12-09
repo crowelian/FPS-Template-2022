@@ -44,6 +44,12 @@ public class SimpleSpaceshipController : MonoBehaviour
             healthBar.transform.localScale = new Vector3(0.1f, health, 0.1f);
         }
 
+        ActivateShip();
+    }
+
+
+    public void ActivateShip()
+    {
         if (playerCanControl)
         {
             playerCamera.enabled = true;
