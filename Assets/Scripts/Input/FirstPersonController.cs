@@ -200,7 +200,6 @@ public class FirstPersonController : MonoBehaviour
                 Collider collision = col as Collider;
                 if (collision.gameObject.tag == "Health")
                 {
-                    Debug.Log("Health Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<Health>().Heal(25f);
                     AudioManager.PlayAudioIfNotPlaying(healthPickup);
@@ -208,7 +207,6 @@ public class FirstPersonController : MonoBehaviour
 
                 else if (collision.gameObject.tag == "Ammo")
                 {
-                    Debug.Log("Ammo Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<SimpleWeaponHandler>().AddAmmo(50);
                     AudioManager.PlayAudioIfNotPlaying(ammoPickup);
@@ -219,7 +217,6 @@ public class FirstPersonController : MonoBehaviour
                 Collision collision = col as Collision;
                 if (collision.gameObject.tag == "Health")
                 {
-                    Debug.Log("Health Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<Health>().Heal(25f);
                     AudioManager.PlayAudioIfNotPlaying(healthPickup);
@@ -227,7 +224,6 @@ public class FirstPersonController : MonoBehaviour
 
                 else if (collision.gameObject.tag == "Ammo")
                 {
-                    Debug.Log("Ammo Pickup");
                     Destroy(collision.gameObject);
                     GetComponent<SimpleWeaponHandler>().AddAmmo(50);
                     AudioManager.PlayAudioIfNotPlaying(ammoPickup);

@@ -887,7 +887,6 @@ public class SimpleAi : MonoBehaviour
         {
             if (!isIdle)
             {
-                Debug.Log("DEVBUGUG STOPPED");
                 animator.SetTrigger("Idle");
                 isIdle = true;
             }
